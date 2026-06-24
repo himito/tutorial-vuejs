@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-const isEmpty = ref(false);
 const newTaskTitle = ref('');
 
 interface Task {
@@ -16,7 +15,6 @@ const tasks = ref<Task[]>([
 ]);
 
 function addTask(){
-  alert('Add task');
 }
 
 function deleteTask(id: number){
@@ -41,7 +39,7 @@ const doneCount = computed(
       <!-- Add task -->
       <div class="add-row">
         <input type="text" class="task-input" placeholder="Enter a new task..." v-model="newTaskTitle" />
-        <button class="btn-add" :disabled="isEmpty" @click="addTask"">Add</button>
+        <button class="btn-add" :disabled="!newTaskTitle.trim()" @click="addTask"">Add</button>
       </div>
 
       <!-- Status + filters -->
