@@ -15,6 +15,17 @@ const tasks = ref<Task[]>([
 ]);
 
 function addTask(){
+  if (!newTaskTitle.value.trim()) return;
+
+  // Add a new task to the list
+  tasks.value.push({
+    id: tasks.value.length + 1,
+    title: newTaskTitle.value,
+    done: false
+  });
+
+  // reset the input field
+  newTaskTitle.value = '';
 }
 
 function deleteTask(id: number){
