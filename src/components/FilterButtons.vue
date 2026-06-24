@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-type Filter = 'all' | 'todo' | 'done';
+import type { Filter } from '@/types';
 
 const model = defineModel<Filter>({ default: () => 'all' });
 
@@ -10,7 +8,6 @@ const filterOptions: { label: string; value: Filter }[] = [
   { label: 'Todo', value: 'todo' },
   { label: 'Done', value: 'done' },
 ];
-
 
 function filterPillClass(value: Filter) {
   return model.value === value ? 'filter-pill--active' : 'filter-pill--inactive';

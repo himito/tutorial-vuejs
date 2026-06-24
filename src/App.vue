@@ -1,9 +1,27 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import type { Filter, Task } from '@/types';
 
 import TaskList from './components/TaskList.vue';
 import FilterButtons from './components/FilterButtons.vue';
 import AddTaskForm from './components/AddTaskForm.vue';
+
+const filter = ref<Filter>("all");
+
+const tasks = ref<Task[]>([
+  { id: 1, title: 'Configure the laptop', done: true },
+  { id: 2, title: 'Ask for some feedback', done: false },
+]);
+
+const doneCount = computed(
+  () => tasks.value.filter(t => t.done).length
+)
+
+const filteredTasks = computed(() => {
+  if (filter.value === 'todo') return tasks.value.filter(t => !t.done);
+  if (filter.value === 'done') return tasks.value.filter(t => t.done);
+  return tasks.value;
+})
 
 function addTask(newTaskTitle: string) {
   if (!newTaskTitle.trim()) return;
@@ -15,29 +33,6 @@ function addTask(newTaskTitle: string) {
     done: false
   });
 }
-
-interface Task {
-  id: number;
-  title: string;
-  done: boolean;
-}
-
-const tasks = ref<Task[]>([
-  { id: 1, title: 'Configure the laptop', done: true },
-  { id: 2, title: 'Ask for some feedback', done: false },
-]);
-
-const filter = ref<"all" | "todo" | "done">("all");
-
-const filteredTasks = computed(() => {
-  if (filter.value === 'todo') return tasks.value.filter(t => !t.done);
-  if (filter.value === 'done') return tasks.value.filter(t => t.done);
-  return tasks.value;
-})
-
-const doneCount = computed(
-  () => tasks.value.filter(t => t.done).length
-)
 
 function deleteTask(id: number) {
   tasks.value = tasks.value.filter(task => task.id !== id);

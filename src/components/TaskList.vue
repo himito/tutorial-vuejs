@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import TaskItem from './TaskItem.vue';
+import type { Task } from '@/types';
 
-interface Task {
-  id: number;
-  title: string;
-  done: boolean;
-}
+import TaskItem from './TaskItem.vue';
 
 defineProps<{
   tasks: Task[]
