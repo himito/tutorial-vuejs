@@ -3,7 +3,14 @@ import { ref } from 'vue';
 
 const newTaskTitle = ref('');
 
-function addTask() { }
+const emit = defineEmits<{
+  (e: 'add-task', title: string): void
+}>()
+
+function addTask() {
+  emit('add-task', newTaskTitle.value.trim());
+  newTaskTitle.value = '';
+}
 </script>
 
 <template>

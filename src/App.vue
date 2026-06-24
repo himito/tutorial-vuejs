@@ -5,19 +5,16 @@ import TaskList from './components/TaskList.vue';
 import FilterButtons from './components/FilterButtons.vue';
 import AddTaskForm from './components/AddTaskForm.vue';
 
-// function addTask() {
-//   if (!newTaskTitle.value.trim()) return;
+function addTask(newTaskTitle: string) {
+  if (!newTaskTitle.trim()) return;
 
-//   // Add a new task to the list
-//   tasks.value.push({
-//     id: tasks.value.length + 1,
-//     title: newTaskTitle.value,
-//     done: false
-//   });
-
-//   // reset the input field
-//   newTaskTitle.value = '';
-// }
+  // Add a new task to the list
+  tasks.value.push({
+    id: tasks.value.length + 1,
+    title: newTaskTitle,
+    done: false
+  });
+}
 
 interface Task {
   id: number;
@@ -52,7 +49,7 @@ const doneCount = computed(
       <h1 class="task-title">My Task Manager</h1>
 
       <!-- Add Task Form -->
-      <AddTaskForm :tasks="tasks" />
+      <AddTaskForm @add-task="addTask" />
 
       <!-- Status + filters -->
       <div class="status-bar">
