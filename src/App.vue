@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const isEmpty = ref(false);
+</script>
 
 <template>
    <div class="page">
@@ -9,7 +13,7 @@
       <!-- Add task -->
       <div class="add-row">
         <input type="text" class="task-input" placeholder="Enter a new task..." />
-        <button class="btn-add">Add</button>
+        <button class="btn-add" :disabled="isEmpty">Add</button>
       </div>
 
       <!-- Status + filters -->
