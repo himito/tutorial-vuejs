@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 
 const isEmpty = ref(false);
+const newTaskTitle = ref('');
 
 interface Task {
   id: number;
@@ -39,7 +40,7 @@ const doneCount = computed(
 
       <!-- Add task -->
       <div class="add-row">
-        <input type="text" class="task-input" placeholder="Enter a new task..." />
+        <input type="text" class="task-input" placeholder="Enter a new task..." v-model="newTaskTitle" />
         <button class="btn-add" :disabled="isEmpty" @click="addTask"">Add</button>
       </div>
 
