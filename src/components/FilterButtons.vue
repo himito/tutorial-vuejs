@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 type Filter = 'all' | 'todo' | 'done';
 
-const filter = ref<Filter>('all');
+const model = defineModel<Filter>({ default: () => 'all' });
 
 const filterOptions: { label: string; value: Filter }[] = [
   { label: 'All', value: 'all' },
@@ -13,14 +13,14 @@ const filterOptions: { label: string; value: Filter }[] = [
 
 
 function filterPillClass(value: Filter) {
-  return filter.value === value ? 'filter-pill--active' : 'filter-pill--inactive';
+  return model.value === value ? 'filter-pill--active' : 'filter-pill--inactive';
 }
 </script>
 
 <template>
   <div class="filters">
     <button v-for="option in filterOptions" :key="option.value" class="filter-pill"
-      :class="filterPillClass(option.value)" @click="filter = option.value">
+      :class="filterPillClass(option.value)" @click="model = option.value">
       {{ option.label }}
     </button>
   </div>

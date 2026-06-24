@@ -38,8 +38,6 @@ const filteredTasks = computed(() => {
 const doneCount = computed(
   () => tasks.value.filter(t => t.done).length
 )
-
-
 </script>
 
 <template>
@@ -54,7 +52,7 @@ const doneCount = computed(
       <!-- Status + filters -->
       <div class="status-bar">
         <p class="status-text">{{ doneCount }} of {{ tasks.length }} tasks completed</p>
-        <FilterButtons />
+        <FilterButtons v-model="filter" />
       </div>
 
       <!-- Task List -->
