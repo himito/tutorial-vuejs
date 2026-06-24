@@ -3,10 +3,17 @@ import { ref } from 'vue';
 
 const isEmpty = ref(false);
 
-const tasks = ref([
-  { id: 1, title: 'Configure the laptop', done: true },
-  { id: 2, title: 'Ask for some feedback', done: false },
-]);
+interface Task {
+  id: number;
+  title: string;
+  done: boolean;
+}
+
+// const tasks = ref<Task[]>([
+//   { id: 1, title: 'Configure the laptop', done: true },
+//   { id: 2, title: 'Ask for some feedback', done: false },
+// ]);
+const tasks = ref<Task[]>([]);
 
 function addTask(){
   alert('Add task');
@@ -44,8 +51,10 @@ function filterTasks(filter: string){
       </div>
 
       <!-- Task list -->
-      <ul class="task-list">
-
+      <div v-if="tasks.length === 0" class="empty-state">
+        <p class="empty-state-text">No tasks yet. Add a task to get started!</p>
+      </div>
+      <ul class="task-list" v-else>
         <li v-for="task in tasks" class="task-item task-item--pending" :key="task.id">
           <input type="checkbox" class="task-checkbox" :checked="task.done" />
           <span class="task-label task-label--pending">{{ task.title }}</span>
