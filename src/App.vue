@@ -25,7 +25,18 @@ interface Task {
   done: boolean;
 }
 
-const tasks = ref<Task[]>([]);
+const tasks = ref<Task[]>([
+  { id: 1, title: 'Configure the laptop', done: true },
+  { id: 2, title: 'Ask for some feedback', done: false },
+]);
+
+const filter = ref<"all" | "todo" | "done">("all");
+
+const filteredTasks = computed(() => {
+  if (filter.value === 'todo') return tasks.value.filter(t => !t.done);
+  if (filter.value === 'done') return tasks.value.filter(t => t.done);
+  return tasks.value;
+})
 
 const doneCount = computed(
   () => tasks.value.filter(t => t.done).length
@@ -41,7 +52,7 @@ const doneCount = computed(
       <h1 class="task-title">My Task Manager</h1>
 
       <!-- Add Task Form -->
-      <AddTaskForm />
+      <AddTaskForm :tasks="tasks" />
 
       <!-- Status + filters -->
       <div class="status-bar">
@@ -50,7 +61,7 @@ const doneCount = computed(
       </div>
 
       <!-- Task List -->
-      <TaskList />
+      <TaskList :tasks="filteredTasks" />
 
     </div>
   </div>
