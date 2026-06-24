@@ -58,7 +58,7 @@ const doneCount = computed(
       </div>
 
       <!-- Task List -->
-      <TaskList :tasks="filteredTasks" />
+      <TaskList v-model="filteredTasks" />
 
     </div>
   </div>

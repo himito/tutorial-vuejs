@@ -9,8 +9,13 @@ defineProps<{
   task: Task
 }>()
 
+const emits = defineEmits<{
+  (e: 'delete-task', id: number): void
+}>()
+
+
 function deleteTask(id: number) {
-  // tasks.value = tasks.value.filter(t => t.id !== id);
+  emits('delete-task', id);
 }
 </script>
 
