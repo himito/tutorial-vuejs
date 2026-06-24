@@ -5,47 +5,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Task Manager</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="tailwind.css" />
 </head>
 
 <body>
-  <div class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
-    <!-- Card -->
-    <div class="w-full max-w-xl bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+  <div class="page">
+    <div class="task-card">
 
-      <!-- Title -->
-      <h1 class="text-3xl font-bold text-slate-800 text-center mb-6">My Task Manager</h1>
+      <h1 class="task-title">My Task Manager</h1>
 
-      <!-- Add task row -->
-      <div class="flex gap-3 mb-3">
-        <input type="text" placeholder="Enter a new task..."
-          class="flex-1 px-4 py-3 text-lg text-slate-700 placeholder-gray-400 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-        <button
-          class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition-colors">
-          Add
-        </button>
+      <!-- Add task -->
+      <div class="add-row">
+        <input type="text" class="task-input" placeholder="Enter a new task..." />
+        <button class="btn-add">Add</button>
       </div>
 
       <!-- Status + filters -->
-      <div class="flex items-center justify-between mb-5">
-        <p class="text-sm text-gray-500">3 of 4 tasks completed</p>
-        <div class="flex gap-2">
-          <button class="px-4 py-1.5 text-sm font-medium rounded-full bg-blue-600 text-white">All</button>
-          <button
-            class="px-4 py-1.5 text-sm font-medium rounded-full bg-gray-200 text-slate-700 hover:bg-gray-300 transition-colors">Todo</button>
-          <button
-            class="px-4 py-1.5 text-sm font-medium rounded-full bg-gray-200 text-slate-700 hover:bg-gray-300 transition-colors">Done</button>
+      <div class="status-bar">
+        <p class="status-text">3 of 4 tasks completed</p>
+        <div class="filters">
+          <button class="filter-pill filter-pill--active">All</button>
+          <button class="filter-pill filter-pill--inactive">Todo</button>
+          <button class="filter-pill filter-pill--inactive">Done</button>
         </div>
       </div>
 
       <!-- Task list -->
-      <ul class="space-y-3">
+      <ul class="task-list">
 
-        <!-- Completed task -->
-        <li class="flex items-center gap-3 px-4 py-3.5 bg-slate-50 border border-gray-200 rounded-lg">
-          <input type="checkbox" checked class="w-5 h-5 accent-blue-600 cursor-pointer" />
-          <span class="flex-1 text-lg text-gray-400 line-through">Write the slides</span>
-          <button class="text-red-500 hover:text-red-600 transition-colors" aria-label="Delete task">
+        <li class="task-item task-item--done">
+          <input type="checkbox" class="task-checkbox" checked />
+          <span class="task-label task-label--done">Write the slides</span>
+          <button class="btn-delete" aria-label="Delete task">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6" />
@@ -56,10 +47,10 @@
           </button>
         </li>
 
-        <li class="flex items-center gap-3 px-4 py-3.5 bg-slate-50 border border-gray-200 rounded-lg">
-          <input type="checkbox" checked class="w-5 h-5 accent-blue-600 cursor-pointer" />
-          <span class="flex-1 text-lg text-gray-400 line-through">Buy the train tickets</span>
-          <button class="text-red-500 hover:text-red-600 transition-colors" aria-label="Delete task">
+        <li class="task-item task-item--done">
+          <input type="checkbox" class="task-checkbox" checked />
+          <span class="task-label task-label--done">Buy the train tickets</span>
+          <button class="btn-delete" aria-label="Delete task">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6" />
@@ -70,10 +61,10 @@
           </button>
         </li>
 
-        <li class="flex items-center gap-3 px-4 py-3.5 bg-slate-50 border border-gray-200 rounded-lg">
-          <input type="checkbox" checked class="w-5 h-5 accent-blue-600 cursor-pointer" />
-          <span class="flex-1 text-lg text-gray-400 line-through">Configure the laptop</span>
-          <button class="text-red-500 hover:text-red-600 transition-colors" aria-label="Delete task">
+        <li class="task-item task-item--done">
+          <input type="checkbox" class="task-checkbox" checked />
+          <span class="task-label task-label--done">Configure the laptop</span>
+          <button class="btn-delete" aria-label="Delete task">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6" />
@@ -84,11 +75,10 @@
           </button>
         </li>
 
-        <!-- Pending task -->
-        <li class="flex items-center gap-3 px-4 py-3.5 bg-white border border-gray-200 rounded-lg">
-          <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer" />
-          <span class="flex-1 text-lg text-slate-800">Ask for some feedback</span>
-          <button class="text-red-500 hover:text-red-600 transition-colors" aria-label="Delete task">
+        <li class="task-item task-item--pending">
+          <input type="checkbox" class="task-checkbox" />
+          <span class="task-label">Ask for some feedback</span>
+          <button class="btn-delete" aria-label="Delete task">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6" />

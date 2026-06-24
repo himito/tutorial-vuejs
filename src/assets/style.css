@@ -1,1 +1,96 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Component classes
+ * Each class groups the Tailwind utilities for one piece of the UI,
+ * so the HTML stays readable. Edit styling here, not in the markup.
+ * ------------------------------------------------------------------ */
+@layer components {
+
+  /* Page + card -------------------------------------------------- */
+  .page {
+    @apply min-h-screen flex items-center justify-center bg-gray-100 p-6;
+  }
+
+  .task-card {
+    @apply w-full max-w-xl bg-white rounded-2xl shadow-sm border border-gray-100 p-8;
+  }
+
+  .task-title {
+    @apply text-3xl font-bold text-slate-800 text-center mb-6;
+  }
+
+  /* Add-task row ------------------------------------------------- */
+  .add-row {
+    @apply flex gap-3 mb-3;
+  }
+
+  .task-input {
+    @apply flex-1 px-4 py-3 text-lg text-slate-700 placeholder-gray-400
+           border border-gray-200 rounded-lg
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .btn-add {
+    @apply px-6 py-3 text-lg font-semibold text-white
+           bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors;
+  }
+
+  /* Status + filters -------------------------------------------- */
+  .status-bar {
+    @apply flex items-center justify-between mb-5;
+  }
+
+  .status-text {
+    @apply text-sm text-gray-500;
+  }
+
+  .filters {
+    @apply flex gap-2;
+  }
+
+  .filter-pill {
+    @apply px-4 py-1.5 text-sm font-medium rounded-full transition-colors;
+  }
+
+  .filter-pill--active {
+    @apply bg-blue-600 text-white;
+  }
+
+  .filter-pill--inactive {
+    @apply bg-gray-200 text-slate-700 hover:bg-gray-300;
+  }
+
+  /* Task list --------------------------------------------------- */
+  .task-list {
+    @apply space-y-3;
+  }
+
+  .task-item {
+    @apply flex items-center gap-3 px-4 py-3.5 border border-gray-200 rounded-lg;
+  }
+
+  .task-item--pending {
+    @apply bg-white;
+  }
+
+  .task-item--done {
+    @apply bg-slate-50;
+  }
+
+  .task-checkbox {
+    @apply w-5 h-5 accent-blue-600 cursor-pointer;
+  }
+
+  .task-label {
+    @apply flex-1 text-lg text-slate-800;
+  }
+
+  .task-label--done {
+    @apply text-gray-400 line-through;
+  }
+
+  .btn-delete {
+    @apply text-red-500 hover:text-red-600 transition-colors;
+  }
+}
