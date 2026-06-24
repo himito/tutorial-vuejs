@@ -2,6 +2,10 @@
 import { ref } from 'vue';
 
 const isEmpty = ref(false);
+
+function addTask(){
+  alert('Add task');
+}
 </script>
 
 <template>
@@ -13,7 +17,7 @@ const isEmpty = ref(false);
       <!-- Add task -->
       <div class="add-row">
         <input type="text" class="task-input" placeholder="Enter a new task..." />
-        <button class="btn-add" :disabled="isEmpty">Add</button>
+        <button class="btn-add" :disabled="isEmpty" @click="addTask"">Add</button>
       </div>
 
       <!-- Status + filters -->
