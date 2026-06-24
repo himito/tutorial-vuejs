@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const isEmpty = ref(false);
 
@@ -9,11 +9,10 @@ interface Task {
   done: boolean;
 }
 
-// const tasks = ref<Task[]>([
-//   { id: 1, title: 'Configure the laptop', done: true },
-//   { id: 2, title: 'Ask for some feedback', done: false },
-// ]);
-const tasks = ref<Task[]>([]);
+const tasks = ref<Task[]>([
+  { id: 1, title: 'Configure the laptop', done: true },
+  { id: 2, title: 'Ask for some feedback', done: false },
+]);
 
 function addTask(){
   alert('Add task');
@@ -26,6 +25,10 @@ function deleteTask(id: number){
 function filterTasks(filter: string){
   alert(`Filter tasks: ${filter}`);
 }
+
+const doneCount = computed(
+  () => tasks.value.filter(t => t.done).length
+)
 </script>
 
 <template>
@@ -42,7 +45,7 @@ function filterTasks(filter: string){
 
       <!-- Status + filters -->
       <div class="status-bar">
-        <p class="status-text">3 of 4 tasks completed</p>
+        <p class="status-text">{{ doneCount }} of {{ tasks.length }} tasks completed</p>
         <div class="filters">
           <button class="filter-pill filter-pill--active" @click="filterTasks('all')">All</button>
           <button class="filter-pill filter-pill--inactive" @click="filterTasks('todo')">Todo</button>
