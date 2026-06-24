@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-const newTaskTitle = ref('');
+import TaskList from './components/TaskList.vue';
+import FilterButtons from './components/FilterButtons.vue';
+import AddTaskForm from './components/AddTaskForm.vue';
 
-type Filter = 'all' | 'todo' | 'done';
+// function addTask() {
+//   if (!newTaskTitle.value.trim()) return;
 
-const filter = ref<Filter>('all');
+//   // Add a new task to the list
+//   tasks.value.push({
+//     id: tasks.value.length + 1,
+//     title: newTaskTitle.value,
+//     done: false
+//   });
 
-const filterOptions: { label: string; value: Filter }[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Todo', value: 'todo' },
-  { label: 'Done', value: 'done' },
-];
+//   // reset the input field
+//   newTaskTitle.value = '';
+// }
 
 interface Task {
   id: number;
@@ -19,93 +25,35 @@ interface Task {
   done: boolean;
 }
 
-const tasks = ref<Task[]>([
-  { id: 1, title: 'Configure the laptop', done: true },
-  { id: 2, title: 'Ask for some feedback', done: false },
-]);
-
-function addTask(){
-  if (!newTaskTitle.value.trim()) return;
-
-  // Add a new task to the list
-  tasks.value.push({
-    id: tasks.value.length + 1,
-    title: newTaskTitle.value,
-    done: false
-  });
-
-  // reset the input field
-  newTaskTitle.value = '';
-}
-
-function deleteTask(id: number){
-  tasks.value = tasks.value.filter(t => t.id !== id);
-}
-
-function filterPillClass(value: Filter){
-  return filter.value === value ? 'filter-pill--active' : 'filter-pill--inactive';
-}
+const tasks = ref<Task[]>([]);
 
 const doneCount = computed(
   () => tasks.value.filter(t => t.done).length
 )
 
-const filteredTasks = computed(()=>{
-  if (filter.value === 'all') return tasks.value;
-  if (filter.value === 'todo') return tasks.value.filter(t => !t.done);
-  if (filter.value === 'done') return tasks.value.filter(t => t.done);
-})
+
 </script>
 
 <template>
-   <div class="page">
+  <div class="page">
     <div class="task-card">
 
       <h1 class="task-title">My Task Manager</h1>
 
-      <!-- Add task -->
-      <div class="add-row">
-        <input type="text" class="task-input" placeholder="Enter a new task..." v-model="newTaskTitle"  @keyup.enter="addTask" @keyup.esc="newTaskTitle = ''"/>
-        <button class="btn-add" :disabled="!newTaskTitle.trim()" @click="addTask">Add</button>
-      </div>
+      <!-- Add Task Form -->
+      <AddTaskForm />
 
       <!-- Status + filters -->
       <div class="status-bar">
         <p class="status-text">{{ doneCount }} of {{ tasks.length }} tasks completed</p>
-        <div class="filters">
-          <button
-            v-for="option in filterOptions"
-            :key="option.value"
-            class="filter-pill"
-            :class="filterPillClass(option.value)"
-            @click="filter = option.value"
-          >
-            {{ option.label }}
-          </button>
-        </div>
+        <FilterButtons />
       </div>
 
-      <!-- Task list -->
-      <div v-if="tasks.length === 0" class="empty-state">
-        <p class="empty-state-text">No tasks yet. Add a task to get started!</p>
-      </div>
-      <ul class="task-list" v-else>
-        <li v-for="task in filteredTasks" class="task-item" :class="{ 'task-item--done': task.done }" :key="task.id">
-          <input type="checkbox" class="task-checkbox" :checked="task.done" @change="task.done = !task.done"/>
-          <span class="task-label" :class="{ 'task-label--done': task.done }">{{ task.title }}</span>
-          <button class="btn-delete" aria-label="Delete task" @click="deleteTask(task.id)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-              <line x1="10" y1="11" x2="10" y2="17" />
-              <line x1="14" y1="11" x2="14" y2="17" />
-            </svg>
-          </button>
-        </li>
-      </ul>
+      <!-- Task List -->
+      <TaskList />
+
     </div>
   </div>
- </template>
+</template>
 
 <style scoped></style>
