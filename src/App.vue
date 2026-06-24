@@ -59,9 +59,9 @@ const doneCount = computed(
         <p class="empty-state-text">No tasks yet. Add a task to get started!</p>
       </div>
       <ul class="task-list" v-else>
-        <li v-for="task in tasks" class="task-item task-item--pending" :key="task.id">
+        <li v-for="task in tasks" class="task-item" :class="{ 'task-item--done': task.done }" :key="task.id">
           <input type="checkbox" class="task-checkbox" :checked="task.done" />
-          <span class="task-label task-label--pending">{{ task.title }}</span>
+          <span class="task-label" :class="{ 'task-label--done': task.done }">{{ task.title }}</span>
           <button class="btn-delete" aria-label="Delete task" @click="deleteTask(task.id)">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
