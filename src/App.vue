@@ -29,7 +29,7 @@ function addTask(){
 }
 
 function deleteTask(id: number){
-  alert(`Delete task: ${id}`);
+  tasks.value = tasks.value.filter(t => t.id !== id);
 }
 
 function filterTasks(filter: string){
