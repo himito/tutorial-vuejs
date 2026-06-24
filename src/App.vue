@@ -38,6 +38,10 @@ const filteredTasks = computed(() => {
 const doneCount = computed(
   () => tasks.value.filter(t => t.done).length
 )
+
+function deleteTask(id: number) {
+  tasks.value = tasks.value.filter(task => task.id !== id);
+}
 </script>
 
 <template>
@@ -56,7 +60,7 @@ const doneCount = computed(
       </div>
 
       <!-- Task List -->
-      <TaskList v-model="filteredTasks" />
+      <TaskList :tasks="filteredTasks" @delete-task="deleteTask" />
 
     </div>
   </div>

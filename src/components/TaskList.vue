@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import TaskItem from './TaskItem.vue';
 
 interface Task {
@@ -8,22 +7,24 @@ interface Task {
   done: boolean;
 }
 
-const model = defineModel<Task[]>({ default: () => [] });
+defineProps<{
+  tasks: Task[]
+}>()
 
-function deleteTask(id: number) {
-  model.value = model.value.filter(task => task.id !== id);
-}
+defineEmits<{
+  (e: 'delete-task', id: number): void
+}>()
 
 </script>
 
 <template>
   <!-- Task list -->
-  <div v-if="model.length === 0" class="empty-state">
+  <div v-if="tasks.length === 0" class="empty-state">
     <p class="empty-state-text">No tasks yet. Add a task to get started!</p>
   </div>
   <ul class="task-list" v-else>
-    <li v-for="task in model" class="task-item" :class="{ 'task-item--done': task.done }" :key="task.id">
-      <TaskItem :task="task" @delete-task="deleteTask" />
+    <li v-for="task in tasks" class="task-item" :class="{ 'task-item--done': task.done }" :key="task.id">
+      <TaskItem :task="task" @delete-task="$emit('delete-task', task.id)" />
     </li>
   </ul>
 </template>
