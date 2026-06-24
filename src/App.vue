@@ -3,6 +3,16 @@ import { computed, ref } from 'vue';
 
 const newTaskTitle = ref('');
 
+type Filter = 'all' | 'todo' | 'done';
+
+const filter = ref<Filter>('all');
+
+const filterOptions: { label: string; value: Filter }[] = [
+  { label: 'All', value: 'all' },
+  { label: 'Todo', value: 'todo' },
+  { label: 'Done', value: 'done' },
+];
+
 interface Task {
   id: number;
   title: string;
@@ -32,13 +42,19 @@ function deleteTask(id: number){
   tasks.value = tasks.value.filter(t => t.id !== id);
 }
 
-function filterTasks(filter: string){
-  alert(`Filter tasks: ${filter}`);
+function filterPillClass(value: Filter){
+  return filter.value === value ? 'filter-pill--active' : 'filter-pill--inactive';
 }
 
 const doneCount = computed(
   () => tasks.value.filter(t => t.done).length
 )
+
+const filteredTasks = computed(()=>{
+  if (filter.value === 'all') return tasks.value;
+  if (filter.value === 'todo') return tasks.value.filter(t => !t.done);
+  if (filter.value === 'done') return tasks.value.filter(t => t.done);
+})
 </script>
 
 <template>
@@ -50,16 +66,22 @@ const doneCount = computed(
       <!-- Add task -->
       <div class="add-row">
         <input type="text" class="task-input" placeholder="Enter a new task..." v-model="newTaskTitle"  @keyup.enter="addTask" @keyup.esc="newTaskTitle = ''"/>
-        <button class="btn-add" :disabled="!newTaskTitle.trim()" @click="addTask"">Add</button>
+        <button class="btn-add" :disabled="!newTaskTitle.trim()" @click="addTask">Add</button>
       </div>
 
       <!-- Status + filters -->
       <div class="status-bar">
         <p class="status-text">{{ doneCount }} of {{ tasks.length }} tasks completed</p>
         <div class="filters">
-          <button class="filter-pill filter-pill--active" @click="filterTasks('all')">All</button>
-          <button class="filter-pill filter-pill--inactive" @click="filterTasks('todo')">Todo</button>
-          <button class="filter-pill filter-pill--inactive" @click="filterTasks('done')">Done</button>
+          <button
+            v-for="option in filterOptions"
+            :key="option.value"
+            class="filter-pill"
+            :class="filterPillClass(option.value)"
+            @click="filter = option.value"
+          >
+            {{ option.label }}
+          </button>
         </div>
       </div>
 
@@ -68,7 +90,7 @@ const doneCount = computed(
         <p class="empty-state-text">No tasks yet. Add a task to get started!</p>
       </div>
       <ul class="task-list" v-else>
-        <li v-for="task in tasks" class="task-item" :class="{ 'task-item--done': task.done }" :key="task.id">
+        <li v-for="task in filteredTasks" class="task-item" :class="{ 'task-item--done': task.done }" :key="task.id">
           <input type="checkbox" class="task-checkbox" :checked="task.done" @change="task.done = !task.done"/>
           <span class="task-label" :class="{ 'task-label--done': task.done }">{{ task.title }}</span>
           <button class="btn-delete" aria-label="Delete task" @click="deleteTask(task.id)">
